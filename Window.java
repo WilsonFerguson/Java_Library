@@ -186,12 +186,16 @@ public class Window {
         JPanel panel = drawPanels();
         window.add(panel);
 
-        // SwingUtilities.invokeLater(new Runnable() {
-        // public void run() {
-        // window.repaint();
-        // }
-        // });
-        window.repaint();
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    window.repaint();
+                }
+            });
+        } catch (InvocationTargetException | InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
