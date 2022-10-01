@@ -42,8 +42,6 @@ public class Main {
 
         window.update();
 
-        // Test for the input box
-
         while (true) {
             window.update();
 
