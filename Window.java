@@ -1,10 +1,12 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import java.util.ArrayList;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 public class Window {
@@ -180,16 +182,20 @@ public class Window {
     }
 
     public void draw() {
-        window.repaint();
-
-        // try {
-        // Thread.sleep(4); // 20 on laptop
-        // } catch (InterruptedException e) {
-        // e.printStackTrace();
-        // }
-
         JPanel panel = drawPanels();
         window.add(panel);
+
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    window.revalidate();
+                    window.repaint();
+                }
+            });
+        } catch (InvocationTargetException | InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
 
     }
 
