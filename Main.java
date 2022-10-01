@@ -88,11 +88,7 @@ public class Main {
             inputBox.update(window);
             window.add(inputBox);
 
-            Text fpsText = new Text("FPS: " + Helper.roundString(window.getFrameRate(), 0), 500, 50);
-            fpsText.color(Color.white);
-            fpsText.setFontType("Times New Roman");
-            fpsText.setFontSize(50);
-            window.add(fpsText);
+            window.displayFramerate();
         }
 
     }

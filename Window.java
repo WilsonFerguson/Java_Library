@@ -198,6 +198,17 @@ public class Window {
 
     }
 
+    public void displayFramerate() {
+        double fps = getFrameRate();
+        Rectangle rectangle = new Rectangle(width - 100, 0, 100, 20);
+        rectangle.color(0, 0, 0);
+        Text text = new Text(Helper.roundString(fps, 0), width - 700, 10);
+        text.color(255, 255, 255);
+        text.setFontSize(20);
+        add(rectangle);
+        add(text);
+    }
+
     public void handleInputs() {
         try {
             mouseX = window.getMousePosition().x;
