@@ -87,8 +87,6 @@ public class Main {
 
             inputBox.update(window);
             window.add(inputBox);
-
-            // Test
         }
 
     }
