@@ -189,7 +189,6 @@ public class Window {
         // }
 
         JPanel panel = drawPanels();
-        panel.setDoubleBuffered(true);
         window.add(panel);
 
     }
