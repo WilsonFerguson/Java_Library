@@ -305,6 +305,6 @@ public class Window {
     }
 
     public double getFrameRate() {
-        return 1000.0 / deltaTime;
+        return Math.min(1000.0 / deltaTime, 1000); // Cap at 1000
     }
 }

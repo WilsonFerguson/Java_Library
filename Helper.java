@@ -30,7 +30,11 @@ public class Helper {
 
     public static String roundString(double num, int places) {
         double factor = Math.pow(10, places);
-        return "" + Math.round(num * factor) / factor;
+        double rounded = Math.round(num * factor) / factor;
+        if (rounded == (int) rounded)
+            return Integer.toString((int) rounded);
+
+        return Double.toString(rounded);
     }
 
     public static void wait(int millis) {
@@ -39,6 +43,13 @@ public class Helper {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void println(Object... args) {
+        for (Object arg : args) {
+            System.out.print(arg + " ");
+        }
+        System.out.println();
     }
 
 }
