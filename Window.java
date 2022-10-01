@@ -193,7 +193,6 @@ public class Window {
                 }
             });
         } catch (InvocationTargetException | InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
@@ -294,7 +293,7 @@ public class Window {
         return deltaTime;
     }
 
-    public double getFPS() {
+    public double getFrameRate() {
         return 1000.0 / deltaTime;
     }
 }
