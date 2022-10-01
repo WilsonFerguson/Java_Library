@@ -79,8 +79,10 @@ public class Window {
                 keyCode = evt.getKeyCode();
                 keyJustPressed = true;
 
-                int[] keyCodes = {8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123};
-                String[] keys = {"Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left", "Up", "Right", "Down", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12"};
+                int[] keyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118, 119,
+                        120, 121, 122, 123 };
+                String[] keys = { "Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left", "Up",
+                        "Right", "Down", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" };
                 for (int i = 0; i < keyCodes.length; i++) {
                     if (keyCode == keyCodes[i]) {
                         key = keys[i];
@@ -88,6 +90,7 @@ public class Window {
                     }
                 }
             }
+
             public void keyReleased(KeyEvent evt) {
                 keyJustReleased = true;
             }
@@ -179,13 +182,14 @@ public class Window {
     public void draw() {
         window.repaint();
 
-        try {
-            Thread.sleep(20);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        // try {
+        // Thread.sleep(4); // 20 on laptop
+        // } catch (InterruptedException e) {
+        // e.printStackTrace();
+        // }
 
         JPanel panel = drawPanels();
+        panel.setDoubleBuffered(true);
         window.add(panel);
 
     }
@@ -200,7 +204,6 @@ public class Window {
             // Do nothing
         }
 
-        
         if (keyJustReleased) {
             key = "";
             keyCode = -1;
@@ -213,7 +216,7 @@ public class Window {
 
         if (mouseClicked)
             callMethod("mouseClicked");
-        
+
         mouseClicked = false;
 
     }
@@ -223,7 +226,7 @@ public class Window {
 
         deltaTime = System.currentTimeMillis() - upTime;
         upTime = System.currentTimeMillis();
-        
+
         draw();
 
         panels.clear();
@@ -284,5 +287,9 @@ public class Window {
 
     public double getDeltaTime() {
         return deltaTime;
+    }
+
+    public double getFPS() {
+        return 1000.0 / deltaTime;
     }
 }
