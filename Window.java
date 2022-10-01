@@ -188,12 +188,10 @@ public class Window {
         try {
             SwingUtilities.invokeAndWait(new Runnable() {
                 public void run() {
-                    window.revalidate();
                     window.repaint();
                 }
             });
         } catch (InvocationTargetException | InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
