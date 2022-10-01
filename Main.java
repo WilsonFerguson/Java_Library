@@ -42,8 +42,6 @@ public class Main {
 
         window.update();
 
-        // wassup
-
         while (true) {
             window.update();
 
