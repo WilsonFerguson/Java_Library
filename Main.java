@@ -13,7 +13,7 @@ public class Main {
         Window window = new Window(width, height);
         window.setFullscreen();
         window.background(0);
-        // window.setTargetFrameRate(60);
+        window.setTargetFrameRate(60);
 
         Shape graph = new Shape();
         graph.color(52, 157, 183);
