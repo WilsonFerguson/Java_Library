@@ -13,7 +13,7 @@ public class Main {
         Window window = new Window(width, height);
         window.setFullscreen();
         window.background(0);
-        window.update();
+        // window.setTargetFrameRate(60);
 
         Shape graph = new Shape();
         graph.color(52, 157, 183);
@@ -39,8 +39,6 @@ public class Main {
         inputBox.setPlaceholderText("Type something...");
         inputBox.setCornerRoundness(10);
         window.add(inputBox);
-
-        window.update();
 
         while (true) {
             window.update();

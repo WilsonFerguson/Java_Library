@@ -37,9 +37,9 @@ public class Helper {
         return Double.toString(rounded);
     }
 
-    public static void wait(int millis) {
+    public static void wait(double millis) {
         try {
-            Thread.sleep(millis);
+            Thread.sleep((long) millis);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

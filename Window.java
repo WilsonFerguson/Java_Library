@@ -35,6 +35,10 @@ public class Window {
     private double startTime;
     private double deltaTime;
 
+    private double targetFrameRate = 1000;
+    private double sleepTime = 0;
+    private double nextGameTick = 0;
+
     public Window(int width, int height, String title) {
         this.width = width;
         this.height = height;
@@ -150,6 +154,17 @@ public class Window {
         background(gray, gray, gray);
     }
 
+    public void setTargetFrameRate(double targetFrameRate) {
+        if (targetFrameRate > 0)
+            this.targetFrameRate = targetFrameRate;
+        else
+            this.targetFrameRate = 1000;
+    }
+
+    public double getTargetFrameRate() {
+        return targetFrameRate;
+    }
+
     private JPanel drawPanels() {
         return new JPanel() {
             public void paintComponent(Graphics g) {
@@ -182,18 +197,25 @@ public class Window {
     }
 
     public void draw() {
-
         JPanel panel = drawPanels();
         window.add(panel);
 
-        try {
-            SwingUtilities.invokeAndWait(new Runnable() {
-                public void run() {
-                    window.repaint();
-                }
-            });
-        } catch (InvocationTargetException | InterruptedException e) {
-            e.printStackTrace();
+        SwingUtilities.updateComponentTreeUI(window);
+
+        // try {
+        // SwingUtilities.invokeAndWait(new Runnable() {
+        // public void run() {
+        // window.revalidate();
+        // window.repaint();
+        // }
+        // });
+        // } catch (InvocationTargetException | InterruptedException e) {
+        // e.printStackTrace();
+        // }
+
+        // Remove every panel except the one we just added
+        for (int i = window.getContentPane().getComponents().length - 1; i > 0; i--) {
+            window.getContentPane().remove(i);
         }
 
     }
@@ -236,7 +258,18 @@ public class Window {
 
     }
 
+    public void controlFrameRate() {
+        int skipTicks = 1000 / (int) targetFrameRate;
+
+        nextGameTick += skipTicks;
+        sleepTime = nextGameTick - getTimeMillis();
+        if (sleepTime >= 0)
+            Helper.wait(sleepTime);
+    }
+
     public void update() {
+        if (targetFrameRate < 1000)
+            controlFrameRate();
         handleInputs();
 
         deltaTime = System.currentTimeMillis() - upTime;
