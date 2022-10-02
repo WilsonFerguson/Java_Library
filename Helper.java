@@ -123,4 +123,18 @@ public class Helper {
         System.out.println();
     }
 
+    /**
+     * Maps a given {@code double} value from one range to another.
+     * 
+     * @param value
+     * @param start1
+     * @param stop1
+     * @param start2
+     * @param stop2
+     * @return double
+     */
+    public static double map(double value, double start1, double stop1, double start2, double stop2) {
+        return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
+    }
+
 }

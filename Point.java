@@ -330,7 +330,11 @@ public class Point {
      * @return Point
      */
     public static Point add(Point point1, Point point2) {
-        return new Point(point1.x + point2.x, point1.y + point2.y);
+        Point p1 = point1.copy();
+        Point p2 = point2.copy();
+        p1.add(p2);
+        return p1;
+
     }
 
     /**
@@ -341,7 +345,10 @@ public class Point {
      * @return Point
      */
     public static Point subtract(Point point1, Point point2) {
-        return new Point(point1.x - point2.x, point1.y - point2.y);
+        Point p1 = point1.copy();
+        Point p2 = point2.copy();
+        p1.subtract(p2);
+        return p1;
     }
 
     /**
@@ -352,7 +359,10 @@ public class Point {
      * @return Point
      */
     public static Point multiply(Point point1, Point point2) {
-        return new Point(point1.x * point2.x, point1.y * point2.y);
+        Point p1 = point1.copy();
+        Point p2 = point2.copy();
+        p1.multiply(p2);
+        return p1;
     }
 
     /**
@@ -363,7 +373,10 @@ public class Point {
      * @return Point
      */
     public static Point divide(Point point1, Point point2) {
-        return new Point(point1.x / point2.x, point1.y / point2.y);
+        Point p1 = point1.copy();
+        Point p2 = point2.copy();
+        p1.divide(p2);
+        return p1;
     }
 
     /**
@@ -374,7 +387,9 @@ public class Point {
      * @return Point
      */
     public static Point multiply(Point point, double scalar) {
-        return new Point(point.x * scalar, point.y * scalar);
+        Point p = point.copy();
+        p.multiply(scalar);
+        return p;
     }
 
     /**
@@ -385,7 +400,9 @@ public class Point {
      * @return Point
      */
     public static Point divide(Point point, double divisor) {
-        return new Point(point.x / divisor, point.y / divisor);
+        Point p = point.copy();
+        p.divide(divisor);
+        return p;
     }
 
     /**
@@ -397,7 +414,9 @@ public class Point {
      * @return double
      */
     public static double dist(Point point1, Point point2) {
-        return Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
+        Point p1 = point1.copy();
+        Point p2 = point2.copy();
+        return p1.dist(p2);
     }
 
     /**
@@ -424,7 +443,9 @@ public class Point {
      * @return double
      */
     public static double dot(Point point1, Point point2) {
-        return point1.x * point2.x + point1.y * point2.y;
+        Point p1 = point1.copy();
+        Point p2 = point2.copy();
+        return p1.dot(p2);
     }
 
     /**
@@ -436,6 +457,8 @@ public class Point {
      * @return double
      */
     public static double cross(Point point1, Point point2) {
-        return point1.x * point2.y - point1.y * point2.x;
+        Point p1 = point1.copy();
+        Point p2 = point2.copy();
+        return p1.cross(p2);
     }
 }
