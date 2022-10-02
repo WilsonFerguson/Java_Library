@@ -10,9 +10,18 @@ public class WindowImage extends JPanel {
 
     private Image image = null;
     private int x = 0, y = 0;
-    private float scale;
+    private double scale;
 
-    public WindowImage(String name, int x, int y, float scale) {
+    /**
+     * Creates a new image given a {@code String} path, {@code int} x, {@code int}
+     * y, and {@code double} scale.
+     * 
+     * @param name
+     * @param x
+     * @param y
+     * @param scale
+     */
+    public WindowImage(String name, int x, int y, double scale) {
         try {
             image = ImageIO.read(new File(name));
         } catch (IOException e) {
@@ -23,10 +32,15 @@ public class WindowImage extends JPanel {
         this.scale = scale;
     }
 
-    public void paintComponent(Graphics g) {
-        g.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f)); // Transparent background
-        super.paintComponent(g);
-        g.drawImage(image, x, y, (int) (image.getWidth(null) * scale), (int) (image.getHeight(null) * scale), null);
+    /**
+     * Paints image to {@code Graph
+     * @param graphics
+     */
+    public void paintComponent(Graphics graphics) {
+        graphics.setColor(new Color(0.0f, 0.0f, 0.0f, 0.0f)); // Transparent background
+        super.paintComponent(graphics);
+        graphics.drawImage(image, x, y, (int) (image.getWidth(null) * scale), (int) (image.getHeight(null) * scale),
+                null);
     }
 
 }

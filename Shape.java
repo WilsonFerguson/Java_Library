@@ -8,63 +8,135 @@ public class Shape extends JPanel {
     private ArrayList<Point> points = new ArrayList<Point>();
     private Color color = Color.BLACK;
 
+    /**
+     * Creates a new shape.
+     */
     public Shape() {
         super();
     }
 
+    /**
+     * Adds a {@code Point} point to the shape.
+     * 
+     * @param point
+     */
     public void addPoint(Point point) {
         points.add(point);
     }
 
+    /**
+     * Adds a {@code double} x and {@code double} y to the shape.
+     * 
+     * @param x
+     * @param y
+     */
     public void addPoint(double x, double y) {
         points.add(new Point(x, y));
     }
 
+    /**
+     * Removes a {@code Point} point from the shape at a given {@code int} index.
+     * 
+     * @param index
+     */
     public void removeAt(int index) {
         points.remove(index);
     }
 
+    /**
+     * Removes a {@code Point} point from the shape given a {@code Point} point.
+     * 
+     * @param point
+     */
     public void removePoint(Point point) {
         points.remove(point);
     }
 
+    /**
+     * Clears all points from the shape.
+     */
     public void clear() {
         points.clear();
     }
 
+    /**
+     * Sets the color of the shape given a {@code Color} color.
+     * 
+     * @param color
+     */
     public void color(Color color) {
         this.color = color;
     }
 
+    /**
+     * Sets the color of the shape given an {@code int} r, {@code int} g, and
+     * {@code int} b.
+     * 
+     * @param r
+     * @param g
+     * @param b
+     */
     public void color(int r, int g, int b) {
         color(new Color(r, g, b));
     }
 
+    /**
+     * Sets the color of the shape given an {@code int} gray.
+     * 
+     * @param gray
+     */
+    public void color(int gray) {
+        color(new Color(gray, gray, gray));
+    }
+
+    /**
+     * Returns the color of the shape as a {@code Color} color.
+     * 
+     * @return Color
+     */
     public Color getColor() {
         return color;
     }
 
+    /**
+     * Returns the points in the shape as an {@code ArrayList<Point>} points.
+     * 
+     * @return ArrayList<Point>
+     */
     public ArrayList<Point> getPoints() {
         return points;
     }
 
-    public void paintComponent(Graphics g) {
-        g.setColor(color);
+    /**
+     * This method is automatically handled by the {@link Window} class. Paints the
+     * shape to a {@code Graphics} graphics.
+     * 
+     * @param graphics
+     */
+    public void paintComponent(Graphics graphics) {
+        graphics.setColor(color);
         for (int i = 0; i < points.size() - 1; i++) {
             Point p1 = points.get(i);
             Point p2 = points.get(i + 1);
-            g.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
+            graphics.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
         }
     }
 
-    public static void draw(Graphics g, JPanel panel) {
+    /**
+     * Static method to draw a shape to {@code Graphics} graphics given a
+     * {@code JPanel} panel.
+     * 
+     * @param graphics
+     * @param panel
+     */
+    public static void draw(Graphics graphics, JPanel panel) {
         Shape shape = (Shape) panel;
         ArrayList<Point> points = shape.getPoints();
-        g.setColor(shape.getColor());
+        graphics.setColor(shape.getColor());
         for (int i = 0; i < points.size() - 1; i++) {
             Point p1 = points.get(i);
             Point p2 = points.get(i + 1);
-            g.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
+            graphics.drawLine((int) p1.x, (int) p1.y, (int) p2.x, (int) p2.y);
         }
     }
 }
