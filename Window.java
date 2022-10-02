@@ -207,10 +207,8 @@ public class Window {
                 }
             });
         } catch (InvocationTargetException | InterruptedException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        //SwingUtilities.updateComponentTreeUI(window);
 
         // try {
         // SwingUtilities.invokeAndWait(new Runnable() {
