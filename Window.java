@@ -200,7 +200,17 @@ public class Window {
         JPanel panel = drawPanels();
         window.add(panel);
 
-        SwingUtilities.updateComponentTreeUI(window);
+        try {
+            SwingUtilities.invokeAndWait(new Runnable() {
+                public void run() {
+                    SwingUtilities.updateComponentTreeUI(window);
+                }
+            });
+        } catch (InvocationTargetException | InterruptedException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        //SwingUtilities.updateComponentTreeUI(window);
 
         // try {
         // SwingUtilities.invokeAndWait(new Runnable() {
