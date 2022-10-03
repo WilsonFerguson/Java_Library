@@ -24,8 +24,10 @@ public class Window {
     private ArrayList<JPanel> panels = new ArrayList<JPanel>();
     private ArrayList<ClickableObject> clickableObjects = new ArrayList<ClickableObject>();
 
-    private String key = "";
-    private int keyCode = -1;
+    private ArrayList<String> keys = new ArrayList<String>();
+    private ArrayList<Integer> keyCodes = new ArrayList<Integer>();
+    private String keyToRemove = "";
+    private int keyCodeToRemove = -1;
     private boolean keyJustReleased = false;
     private boolean keyJustPressed = false;
 
@@ -95,23 +97,32 @@ public class Window {
 
         window.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent evt) {
-                key = String.valueOf(evt.getKeyChar());
-                keyCode = evt.getKeyCode();
+                String key = String.valueOf(evt.getKeyChar());
+                int keyCode = evt.getKeyCode();
                 keyJustPressed = true;
 
-                int[] keyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118, 119,
+                int[] possibleKeyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118,
+                        119,
                         120, 121, 122, 123 };
-                String[] keys = { "Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left", "Up",
+                String[] possibleKeys = { "Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left",
+                        "Up",
                         "Right", "Down", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" };
-                for (int i = 0; i < keyCodes.length; i++) {
-                    if (keyCode == keyCodes[i]) {
-                        key = keys[i];
+                for (int i = 0; i < possibleKeyCodes.length; i++) {
+                    if (keyCode == possibleKeyCodes[i]) {
+                        key = possibleKeys[i];
                         break;
                     }
+                }
+
+                if (!keys.contains(key)) {
+                    keys.add(key);
+                    keyCodes.add(keyCode);
                 }
             }
 
             public void keyReleased(KeyEvent evt) {
+                keyToRemove = String.valueOf(evt.getKeyChar());
+                keyCodeToRemove = evt.getKeyCode();
                 keyJustReleased = true;
             }
         });
@@ -324,8 +335,10 @@ public class Window {
         }
 
         if (keyJustReleased) {
-            key = "";
-            keyCode = -1;
+            keys.remove(keyToRemove);
+            keyCodes.remove((Integer) keyCodeToRemove);
+            keyToRemove = "";
+            keyCodeToRemove = -1;
         }
         keyJustReleased = false;
         keyJustPressed = false;
@@ -424,7 +437,7 @@ public class Window {
      * @return boolean
      */
     public boolean keyPressed() {
-        return !key.equals("");
+        return keys.size() > 0;
     }
 
     /**
@@ -446,23 +459,33 @@ public class Window {
     }
 
     /**
-     * Returns {@code String} key that is currently pressed. If no keys are pressed,
-     * returns {@code ""}.
+     * Returns a {@code String[]} of all the keys that are currently pressed.
      * 
-     * @return String
+     * @return String[]
      */
-    public String key() {
-        return key;
+    public String[] getKeysPressed() {
+        if (keys.size() == 0)
+            return new String[0];
+        String[] keysArray = new String[keys.size()];
+        for (int i = 0; i < keys.size(); i++) {
+            keysArray[i] = keys.get(i);
+        }
+        return keysArray;
     }
 
     /**
-     * Returns {@code int} key code that is currently pressed. If no keys are
-     * pressed, returns {@code -1}.
+     * Returns a {@code int[]} of all the key codes that are currently pressed.
      * 
-     * @return int
+     * @return int[]
      */
-    public int keyCode() {
-        return keyCode;
+    public int[] getKeyCodesPressed() {
+        if (keyCodes.size() == 0)
+            return new int[0];
+        int[] keysArray = new int[keyCodes.size()];
+        for (int i = 0; i < keyCodes.size(); i++) {
+            keysArray[i] = keyCodes.get(i);
+        }
+        return keysArray;
     }
 
     /**

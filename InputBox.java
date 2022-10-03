@@ -335,19 +335,12 @@ public class InputBox implements ClickableObject {
     public void mouseReleased() {
     }
 
-    /**
-     * Updates the button, must be called in the draw loop. Must be given a
-     * {@code Window} window.
-     * 
-     * @param window
-     */
-    public void update(Window window) {
-        if (window.mousePressed() && !hover(window.getMouse())) {
-            selected = false;
-            color = defaultColor;
-        }
+    private void handleTyping(Window window) {
+        String[] keys = window.getKeysPressed();
+        if (keys.length == 0)
+            return;
 
-        String key = window.key();
+        String key = keys[keys.length - 1];
         boolean keyPressed = window.keyJustPressed();
         if (!keyPressed)
             return;
@@ -368,6 +361,21 @@ public class InputBox implements ClickableObject {
                 text += key;
             }
         }
+    }
+
+    /**
+     * Updates the button, must be called in the draw loop. Must be given a
+     * {@code Window} window.
+     * 
+     * @param window
+     */
+    public void update(Window window) {
+        if (window.mousePressed() && !hover(window.getMouse())) {
+            selected = false;
+            color = defaultColor;
+        }
+
+        handleTyping(window);
     }
 
     /**
