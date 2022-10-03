@@ -90,7 +90,7 @@ public class Helper {
     public static String roundString(double num, int places) {
         double factor = Math.pow(10, places);
         double rounded = Math.round(num * factor) / factor;
-        if (rounded == (int) rounded)
+        if (rounded % 1 == 0)
             return Integer.toString((int) rounded);
 
         return Double.toString(rounded);
@@ -135,6 +135,29 @@ public class Helper {
      */
     public static double map(double value, double start1, double stop1, double start2, double stop2) {
         return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
+    }
+
+    /**
+     * Returns true if the given {@code String} is an integer.
+     * @param str
+     * @return boolean
+     */
+    public static boolean isInt(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
+        }
+    }
+
+    /**
+     * Returns true if the given {@code Object} is an int. Based on {@link #isInt(String)}.
+     * @param obj
+     * @return
+     */
+    public static boolean isInt(Object obj) {
+        return isInt(obj.toString());
     }
 
 }
