@@ -86,6 +86,12 @@ public class Main {
             inputBox.update(window);
             window.add(inputBox);
 
+            Text keyText = new Text("Keys: " + Helper.toString(window.getKeysPressed()), 500, 100);
+            keyText.color(Color.white);
+            keyText.setFontType("Times New Roman");
+            keyText.setFontSize(30);
+            window.add(keyText);
+
             window.displayFramerate();
         }
 

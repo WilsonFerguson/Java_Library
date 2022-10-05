@@ -97,22 +97,10 @@ public class Window {
 
         window.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent evt) {
-                String key = String.valueOf(evt.getKeyChar());
                 int keyCode = evt.getKeyCode();
                 keyJustPressed = true;
 
-                int[] possibleKeyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118,
-                        119,
-                        120, 121, 122, 123 };
-                String[] possibleKeys = { "Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left",
-                        "Up",
-                        "Right", "Down", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" };
-                for (int i = 0; i < possibleKeyCodes.length; i++) {
-                    if (keyCode == possibleKeyCodes[i]) {
-                        key = possibleKeys[i];
-                        break;
-                    }
-                }
+                String key = keyCodeToString(evt);
 
                 if (!keys.contains(key)) {
                     keys.add(key);
@@ -121,11 +109,27 @@ public class Window {
             }
 
             public void keyReleased(KeyEvent evt) {
-                keyToRemove = String.valueOf(evt.getKeyChar());
                 keyCodeToRemove = evt.getKeyCode();
+                keyToRemove = keyCodeToString(evt);
                 keyJustReleased = true;
             }
         });
+    }
+
+    private String keyCodeToString(KeyEvent evt) {
+        String key = String.valueOf(evt.getKeyChar());
+        int keyCode = evt.getKeyCode();
+        int[] possibleKeyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118, 119,
+                120, 121, 122, 123 };
+        String[] possibleKeys = { "Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left", "Up",
+                "Right", "Down", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" };
+        for (int i = 0; i < possibleKeyCodes.length; i++) {
+            if (keyCode == possibleKeyCodes[i]) {
+                key = possibleKeys[i];
+                break;
+            }
+        }
+        return key;
     }
 
     private void callMethod(String methodName) {

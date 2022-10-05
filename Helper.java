@@ -124,6 +124,18 @@ public class Helper {
     }
 
     /**
+     * Prints a given {@code Object[]} with spaces in between each element. Prints a new line at the end.
+     * 
+     * @param args
+     */
+    public static void printArray(Object[] args) {
+        for (Object arg : args) {
+            System.out.print(arg + " ");
+        }
+        System.out.println();
+    }
+
+    /**
      * Maps a given {@code double} value from one range to another.
      * 
      * @param value
@@ -160,4 +172,59 @@ public class Helper {
         return isInt(obj.toString());
     }
 
+    /**
+     * Returns a String representation of the given {@code Object} array. The String will not contain brackets, each element is separated by a space.
+     * @param arr
+     * @return String
+     */
+    public static String toString(Object[] arr) {
+        String str = "";
+        for (int i = 0; i < arr.length; i++) {
+            str += arr[i];
+            if (i < arr.length - 1)
+                str += " ";
+        }
+        return str + "";
+    }
+
+    /**
+     * Returns true if the given {@code String[]} array contains the given {@code String} element.
+     * @param arr
+     * @param element
+     * @return boolean
+     */
+    public static boolean contains(String[] arr, String element) {
+        for (String str : arr) {
+            if (str.equals(element))
+                return true;
+        }
+        return false;
+    }
+    /**
+     * Returns true if the given {@code int[]} array contains the given {@code int} element.
+     * @param arr
+     * @param element
+     * @return boolean
+     */
+    public static boolean contains(int[] arr, int element) {
+        for (int i : arr) {
+            if (i == element)
+                return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns true if the given {@code double[]} array contains the given {@code double} element.
+     * @param arr
+     * @param element
+     * @return boolean
+     */
+    public static boolean contains(double[] arr, double element) {
+        for (double d : arr) {
+            if (d == element)
+                return true;
+        }
+        return false;
+    }
 }
