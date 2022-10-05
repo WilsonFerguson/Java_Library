@@ -1,7 +1,8 @@
 import java.awt.Color;
 import java.util.Random;
+import java.awt.event.*;
 
-public class Main {
+public class Main implements JavaLibrary {
 
     public static void main(String[] args) {
         // inventoryTest();
@@ -13,7 +14,8 @@ public class Main {
         Window window = new Window(width, height);
         window.setFullscreen();
         window.background(0);
-       // window.setTargetFrameRate(60);
+        window.addListener(new Main());
+        // window.setTargetFrameRate(60);
 
         Shape graph = new Shape();
         graph.color(52, 157, 183);
@@ -32,7 +34,7 @@ public class Main {
         button.setCornerRoundness(10);
         window.add(button);
 
-        InputBox inputBox = new InputBox(50, 200, 200, 100);
+        InputBox inputBox = new InputBox(window, 50, 200, 200, 100);
         inputBox.defaultColor(255, 255, 255);
         inputBox.selectedColor(200, 200, 200);
         inputBox.textColor(0, 0, 0);
@@ -86,15 +88,7 @@ public class Main {
             inputBox.update(window);
             window.add(inputBox);
 
-            Text keyText = new Text("Keys: " + Helper.toString(window.getKeysPressed()), 500, 100);
-            keyText.color(Color.white);
-            keyText.setFontType("Times New Roman");
-            keyText.setFontSize(30);
-            window.add(keyText);
-
             window.displayFramerate();
-
-            // Hi!
         }
 
     }
@@ -161,6 +155,32 @@ public class Main {
         inventory.removeItem(new Random().nextInt(inventory.getWidth()), new Random().nextInt(inventory.getHeight()));
 
         inventory.printVisual();
+    }
+
+    public void mousePressed(MouseEvent evt) {
+    }
+
+    public void mouseClicked(MouseEvent evt) {
+    }
+
+    public void mouseReleased(MouseEvent evt) {
+    }
+
+    public void mouseDragged(MouseEvent evt) {
+        Helper.println("Mouse dragged");
+    }
+
+    public void mouseWheelMoved(MouseWheelEvent evt) {
+        Helper.println("Mouse wheel moved");
+    }
+
+    public void keyPressed(KeyEvent evt) {
+    }
+
+    public void keyReleased(KeyEvent evt) {
+    }
+
+    public void keyTyped(KeyEvent evt) {
     }
 
 }

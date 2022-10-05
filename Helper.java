@@ -1,3 +1,5 @@
+import java.awt.event.KeyEvent;
+
 public class Helper {
 
     /**
@@ -124,7 +126,8 @@ public class Helper {
     }
 
     /**
-     * Prints a given {@code Object[]} with spaces in between each element. Prints a new line at the end.
+     * Prints a given {@code Object[]} with spaces in between each element. Prints a
+     * new line at the end.
      * 
      * @param args
      */
@@ -151,6 +154,7 @@ public class Helper {
 
     /**
      * Returns true if the given {@code String} is an integer.
+     * 
      * @param str
      * @return boolean
      */
@@ -164,7 +168,9 @@ public class Helper {
     }
 
     /**
-     * Returns true if the given {@code Object} is an int. Based on {@link #isInt(String)}.
+     * Returns true if the given {@code Object} is an int. Based on
+     * {@link #isInt(String)}.
+     * 
      * @param obj
      * @return
      */
@@ -173,7 +179,9 @@ public class Helper {
     }
 
     /**
-     * Returns a String representation of the given {@code Object} array. The String will not contain brackets, each element is separated by a space.
+     * Returns a String representation of the given {@code Object} array. The String
+     * will not contain brackets, each element is separated by a space.
+     * 
      * @param arr
      * @return String
      */
@@ -188,7 +196,9 @@ public class Helper {
     }
 
     /**
-     * Returns true if the given {@code String[]} array contains the given {@code String} element.
+     * Returns true if the given {@code String[]} array contains the given
+     * {@code String} element.
+     * 
      * @param arr
      * @param element
      * @return boolean
@@ -200,8 +210,11 @@ public class Helper {
         }
         return false;
     }
+
     /**
-     * Returns true if the given {@code int[]} array contains the given {@code int} element.
+     * Returns true if the given {@code int[]} array contains the given {@code int}
+     * element.
+     * 
      * @param arr
      * @param element
      * @return boolean
@@ -215,7 +228,9 @@ public class Helper {
     }
 
     /**
-     * Returns true if the given {@code double[]} array contains the given {@code double} element.
+     * Returns true if the given {@code double[]} array contains the given
+     * {@code double} element.
+     * 
      * @param arr
      * @param element
      * @return boolean
@@ -226,5 +241,59 @@ public class Helper {
                 return true;
         }
         return false;
+    }
+
+    /**
+     * Returns true if the given {@code Object} classObject contains a
+     * {@code String} method.
+     * <p>
+     * Note: This will only work with methods that do not have parameters.
+     * </font>
+     * 
+     * @param classObject
+     * @param methodName
+     * @return boolean
+     */
+    public static boolean containsClass(Object classObject, String methodName) {
+        Class<?> class1 = classObject.getClass();
+        try {
+            class1.getDeclaredMethod(methodName, null);
+            return true;
+        } catch (NoSuchMethodException | SecurityException e) {
+            // Doesn't have class
+            return false;
+        }
+    }
+
+    /**
+     * Returns a {@code String} of the given {@code KeyEvent}. Examples of non-alpha keys: "Backspace" "Control" "Space" "Up" "F5"
+     * 
+     * @param evt
+     * @return String
+     */
+    public static String keyCodeToString(KeyEvent evt) {
+        String key = String.valueOf(evt.getKeyChar());
+        int keyCode = evt.getKeyCode();
+        int[] possibleKeyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118, 119,
+                120, 121, 122, 123 };
+        String[] possibleKeys = { "Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left", "Up",
+                "Right", "Down", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" };
+        for (int i = 0; i < possibleKeyCodes.length; i++) {
+            if (keyCode == possibleKeyCodes[i]) {
+                key = possibleKeys[i];
+                break;
+            }
+        }
+        return key;
+    }
+
+    /**
+     * Returns an {@code int} keycode of the given {@code KeyEvent}.
+     * 
+     * @param evt
+     * @return int
+     */
+    public static int keyCodeToInt(KeyEvent evt) {
+        return evt.getKeyCode();
     }
 }

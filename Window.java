@@ -24,15 +24,6 @@ public class Window {
     private ArrayList<JPanel> panels = new ArrayList<JPanel>();
     private ArrayList<ClickableObject> clickableObjects = new ArrayList<ClickableObject>();
 
-    private ArrayList<String> keys = new ArrayList<String>();
-    private ArrayList<Integer> keyCodes = new ArrayList<Integer>();
-    private String keyToRemove = "";
-    private int keyCodeToRemove = -1;
-    private boolean keyJustReleased = false;
-    private boolean keyJustPressed = false;
-
-    private boolean mouseClicked = false;
-
     private double upTime;
     private double startTime;
     private double deltaTime;
@@ -40,6 +31,8 @@ public class Window {
     private double targetFrameRate = 1000;
     private double sleepTime = 0;
     private double nextGameTick = 0;
+
+    private ArrayList<JavaLibrary> eventListeners = new ArrayList<JavaLibrary>();
 
     /**
      * Creates a new window given {@code int} width, {@code int} height, and
@@ -81,57 +74,67 @@ public class Window {
 
         backgroundColor = window.getContentPane().getBackground();
 
-        window.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                if (!mousePressed)
-                    mouseClicked = true;
+        window.addMouseListener(new MouseAdapter() {
+            public void mousePressed(MouseEvent evt) {
+                callMethod("mousePressed");
+                for (JavaLibrary listener : eventListeners) {
+                    listener.mousePressed(evt);
+                }
                 mousePressed = true;
             }
 
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                if (mousePressed)
-                    callMethod("mouseReleased");
+            public void mouseReleased(MouseEvent evt) {
+                callMethod("mouseReleased");
+                for (JavaLibrary listener : eventListeners) {
+                    listener.mouseReleased(evt);
+                }
                 mousePressed = false;
+            }
+
+            public void mouseClicked(MouseEvent evt) {
+                callMethod("mouseClicked");
+                for (JavaLibrary listener : eventListeners) {
+                    listener.mouseClicked(evt);
+                }
+            }
+
+            public void mouseDragged(MouseEvent evt) {
+                for (JavaLibrary listener : eventListeners) {
+                    listener.mouseDragged(evt);
+                }
+            }
+
+            public void mouseWheelMoved(MouseWheelEvent evt) {
+                for (JavaLibrary listener : eventListeners) {
+                    listener.mouseWheelMoved(evt);
+                }
+
             }
         });
 
         window.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent evt) {
-                int keyCode = evt.getKeyCode();
-                keyJustPressed = true;
-
-                String key = keyCodeToString(evt);
-
-                if (!keys.contains(key)) {
-                    keys.add(key);
-                    keyCodes.add(keyCode);
+                for (JavaLibrary listener : eventListeners) {
+                    listener.keyPressed(evt);
                 }
             }
 
             public void keyReleased(KeyEvent evt) {
-                keyCodeToRemove = evt.getKeyCode();
-                keyToRemove = keyCodeToString(evt);
-                keyJustReleased = true;
+                for (JavaLibrary listener : eventListeners) {
+                    listener.keyReleased(evt);
+                }
+            }
+
+            public void keyTyped(KeyEvent evt) {
+                for (JavaLibrary listener : eventListeners) {
+                    listener.keyTyped(evt);
+                }
             }
         });
     }
 
-    private String keyCodeToString(KeyEvent evt) {
-        String key = String.valueOf(evt.getKeyChar());
-        int keyCode = evt.getKeyCode();
-        int[] possibleKeyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118, 119,
-                120, 121, 122, 123 };
-        String[] possibleKeys = { "Backspace", "Enter", "Shift", "Control", "Alt", "Escape", "Space", "Left", "Up",
-                "Right", "Down", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12" };
-        for (int i = 0; i < possibleKeyCodes.length; i++) {
-            if (keyCode == possibleKeyCodes[i]) {
-                key = possibleKeys[i];
-                break;
-            }
-        }
-        return key;
-    }
-
+    // Easy way to call a specific method to every ClickableObject in
+    // clickableObjects list
     private void callMethod(String methodName) {
         try {
             Class<?> c = Class.forName("ClickableObject");
@@ -338,23 +341,6 @@ public class Window {
             // Do nothing
         }
 
-        if (keyJustReleased) {
-            keys.remove(keyToRemove);
-            keyCodes.remove((Integer) keyCodeToRemove);
-            keyToRemove = "";
-            keyCodeToRemove = -1;
-        }
-        keyJustReleased = false;
-        keyJustPressed = false;
-
-        if (mousePressed)
-            callMethod("mousePressed");
-
-        if (mouseClicked)
-            callMethod("mouseClicked");
-
-        mouseClicked = false;
-
     }
 
     private void controlFrameRate() {
@@ -402,6 +388,17 @@ public class Window {
     }
 
     /**
+     * Adds a {@code JavaLibrary} object to the listeners array so that when a mouse
+     * or keyboard input is detected, the corresponding method in the object is
+     * called.
+     * 
+     * @param object
+     */
+    public void addListener(JavaLibrary object) {
+        eventListeners.add(object);
+    }
+
+    /**
      * Closes the window.
      */
     public void close() {
@@ -418,78 +415,12 @@ public class Window {
     }
 
     /**
-     * Returns {@code boolean} if the mouse is pressed.
+     * Returns true if the mouse is pressed.
      * 
      * @return boolean
      */
     public boolean mousePressed() {
         return mousePressed;
-    }
-
-    /**
-     * Returns {@code boolean} if the mouse is released.
-     * 
-     * @return boolean
-     */
-    public boolean mouseReleased() {
-        return !mousePressed;
-    }
-
-    /**
-     * Returns {@code boolean} if a key is pressed.
-     * 
-     * @return boolean
-     */
-    public boolean keyPressed() {
-        return keys.size() > 0;
-    }
-
-    /**
-     * Returns {@code boolean} if a key was just pressed.
-     * 
-     * @return boolean
-     */
-    public boolean keyJustPressed() {
-        return keyJustPressed;
-    }
-
-    /**
-     * Returns {@code boolean} if a key was just released.
-     * 
-     * @return boolean
-     */
-    public boolean keyJustReleased() {
-        return keyJustReleased;
-    }
-
-    /**
-     * Returns a {@code String[]} of all the keys that are currently pressed.
-     * 
-     * @return String[]
-     */
-    public String[] getKeysPressed() {
-        if (keys.size() == 0)
-            return new String[0];
-        String[] keysArray = new String[keys.size()];
-        for (int i = 0; i < keys.size(); i++) {
-            keysArray[i] = keys.get(i);
-        }
-        return keysArray;
-    }
-
-    /**
-     * Returns a {@code int[]} of all the key codes that are currently pressed.
-     * 
-     * @return int[]
-     */
-    public int[] getKeyCodesPressed() {
-        if (keyCodes.size() == 0)
-            return new int[0];
-        int[] keysArray = new int[keyCodes.size()];
-        for (int i = 0; i < keyCodes.size(); i++) {
-            keysArray[i] = keyCodes.get(i);
-        }
-        return keysArray;
     }
 
     /**

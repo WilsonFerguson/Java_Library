@@ -347,7 +347,6 @@ public class Button implements ClickableObject {
      * Code that is run when the button is clicked.
      */
     public void mouseClicked() {
-        System.out.println("Clicked");
     }
 
     /**

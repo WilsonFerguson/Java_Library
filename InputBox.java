@@ -1,8 +1,9 @@
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.*;
 
-public class InputBox implements ClickableObject {
+public class InputBox implements ClickableObject, JavaLibrary {
 
     private Point pos, dimensions;
 
@@ -25,7 +26,7 @@ public class InputBox implements ClickableObject {
      * @param pos
      * @param dimensions
      */
-    public InputBox(Point pos, Point dimensions) {
+    public InputBox(Window window, Point pos, Point dimensions) {
         this.pos = pos;
         this.dimensions = dimensions;
 
@@ -40,6 +41,8 @@ public class InputBox implements ClickableObject {
         cornerRoundness = 0;
 
         selected = false;
+
+        window.addListener(this);
     }
 
     /**
@@ -51,8 +54,8 @@ public class InputBox implements ClickableObject {
      * @param width
      * @param height
      */
-    public InputBox(double x, double y, double width, double height) {
-        this(new Point(x, y), new Point(width, height));
+    public InputBox(Window window, double x, double y, double width, double height) {
+        this(window, new Point(x, y), new Point(width, height));
     }
 
     /**
@@ -313,57 +316,6 @@ public class InputBox implements ClickableObject {
     }
 
     /**
-     * Method is automatically called by {@link Window} when the input box is
-     * clicked.
-     */
-    public void mouseClicked() {
-    }
-
-    /**
-     * Method is automatically called by {@link Window} when the input box is
-     * pressed.
-     */
-    public void mousePressed() {
-        selected = true;
-        color = selectedColor;
-    }
-
-    /**
-     * Method is automatically called by {@link Window} when the input box is
-     * released.
-     */
-    public void mouseReleased() {
-    }
-
-    private void handleTyping(Window window) {
-        String[] keys = window.getKeysPressed();
-        if (keys.length == 0)
-            return;
-
-        String key = keys[keys.length - 1];
-        boolean keyPressed = window.keyJustPressed();
-        if (!keyPressed)
-            return;
-
-        if (key.equals("Escape")) {
-            selected = false;
-            color = defaultColor;
-            return;
-        }
-        if (selected && key != "") {
-            if (key.equals("Backspace")) {
-                if (text.length() > 0) {
-                    text = text.substring(0, text.length() - 1);
-                }
-            } else if (key.equals("Space")) {
-                text += " ";
-            } else if (key.length() == 1) {
-                text += key;
-            }
-        }
-    }
-
-    /**
      * Updates the button, must be called in the draw loop. Must be given a
      * {@code Window} window.
      * 
@@ -374,8 +326,6 @@ public class InputBox implements ClickableObject {
             selected = false;
             color = defaultColor;
         }
-
-        handleTyping(window);
     }
 
     /**
@@ -428,4 +378,73 @@ public class InputBox implements ClickableObject {
         return hover(new Point(x, y));
     }
 
+    // ********************************************************** IMPLEMENTED
+    // METHODS (AUTOMATICALLY CALLED BY WINDOW CLASS)
+    // **********************************************************//
+    /**
+     * Method is automatically called by {@link Window} when the input box is
+     * clicked.
+     */
+    public void mouseClicked() {
+    }
+
+    /**
+     * Method is automatically called by {@link Window} when the input box is
+     * pressed.
+     */
+    public void mousePressed() {
+        selected = true;
+        color = selectedColor;
+    }
+
+    /**
+     * Method is automatically called by {@link Window} when the input box is
+     * released.
+     */
+    public void mouseReleased() {
+    }
+
+    public void mousePressed(MouseEvent evt) {
+
+    }
+
+    public void mouseClicked(MouseEvent evt) {
+
+    }
+
+    public void mouseReleased(MouseEvent evt) {
+
+    }
+
+    public void mouseDragged(MouseEvent evt) {
+
+    }
+
+    public void mouseWheelMoved(MouseWheelEvent evt) {
+
+    }
+
+    public void keyPressed(KeyEvent evt) {
+
+    }
+
+    public void keyReleased(KeyEvent evt) {
+
+    }
+
+    public void keyTyped(KeyEvent evt) {
+        String key = Helper.keyCodeToString(evt);
+        if (key.equals("Escape")) {
+            selected = false;
+            color = defaultColor;
+        } else if (key.equals("Backspace")) {
+            if (text.length() > 0)
+                text = text.substring(0, text.length() - 1);
+        } else if (key.equals("Enter")) {
+            selected = false;
+            color = defaultColor;
+        } else if (key.length() == 1) {
+            text += key;
+        }
+    }
 }
