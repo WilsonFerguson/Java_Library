@@ -93,6 +93,8 @@ public class Main {
             window.add(keyText);
 
             window.displayFramerate();
+
+            // Hi!
         }
 
     }
