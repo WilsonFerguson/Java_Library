@@ -271,7 +271,7 @@ public class Helper {
      * @param evt
      * @return String
      */
-    public static String keyCodeToString(KeyEvent evt) {
+    public static String keyEventToString(KeyEvent evt) {
         String key = String.valueOf(evt.getKeyChar());
         int keyCode = evt.getKeyCode();
         int[] possibleKeyCodes = { 8, 10, 16, 17, 18, 27, 32, 37, 38, 39, 40, 112, 113, 114, 115, 116, 117, 118, 119,
@@ -293,7 +293,7 @@ public class Helper {
      * @param evt
      * @return int
      */
-    public static int keyCodeToInt(KeyEvent evt) {
+    public static int keyEventToKeyCode(KeyEvent evt) {
         return evt.getKeyCode();
     }
 }

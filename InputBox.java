@@ -433,7 +433,7 @@ public class InputBox implements ClickableObject, JavaLibrary {
     }
 
     public void keyTyped(KeyEvent evt) {
-        String key = Helper.keyCodeToString(evt);
+        String key = Helper.keyEventToString(evt);
         if (key.equals("Escape")) {
             selected = false;
             color = defaultColor;
