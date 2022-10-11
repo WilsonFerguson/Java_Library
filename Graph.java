@@ -210,7 +210,7 @@ public class Graph extends JPanel {
      * 
      * @param pos
      */
-    public void position(Point pos) {
+    public void setPosition(Point pos) {
         this.pos = pos;
     }
 
@@ -220,7 +220,7 @@ public class Graph extends JPanel {
      * @param x
      * @param y
      */
-    public void position(int x, int y) {
+    public void setPosition(int x, int y) {
         this.pos = new Point(x, y);
     }
 
@@ -229,7 +229,7 @@ public class Graph extends JPanel {
      * 
      * @param dimensions
      */
-    public void dimensions(Point dimensions) {
+    public void setDimensions(Point dimensions) {
         this.dimensions = dimensions;
     }
 
@@ -240,7 +240,7 @@ public class Graph extends JPanel {
      * @param width
      * @param height
      */
-    public void dimensions(int width, int height) {
+    public void setDimensions(int width, int height) {
         this.dimensions = new Point(width, height);
     }
 
@@ -249,7 +249,7 @@ public class Graph extends JPanel {
      * 
      * @param title
      */
-    public void title(String title) {
+    public void setTitle(String title) {
         this.title = title;
     }
 
@@ -258,7 +258,7 @@ public class Graph extends JPanel {
      * 
      * @param xLabel
      */
-    public void xLabel(String xLabel) {
+    public void setXLabel(String xLabel) {
         this.xLabel = xLabel;
     }
 
@@ -267,7 +267,7 @@ public class Graph extends JPanel {
      * 
      * @param yLabel
      */
-    public void yLabel(String yLabel) {
+    public void setYLabel(String yLabel) {
         this.yLabel = yLabel;
     }
 
