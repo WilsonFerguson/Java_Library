@@ -42,10 +42,33 @@ public class Main implements JavaLibrary {
         inputBox.setCornerRoundness(10);
         window.add(inputBox);
 
+        Graph testGraph = new Graph(500, 100, 500, 500, "Test Graph", "X Axis", "Y Axis");
+        testGraph.setCornerRoundness(10);
+        testGraph.backgroundColor(Color.white);
+        testGraph.lineColor(Color.black);
+        testGraph.addPoint(20);
+        testGraph.addPoint(30);
+        testGraph.addPoint(40);
+        testGraph.addPoint(50);
+        testGraph.addPoint(60);
+        testGraph.addPoint(60);
+        testGraph.addPoint(55);
+        testGraph.addPoint(50);
+        testGraph.addPoint(45);
+        testGraph.addPoint(65);
+        testGraph.addPoint(70);
+        testGraph.addPoint(30);
+        testGraph.addPoint(20);
+        testGraph.addPoint(10);
+        testGraph.addPoint(0);
+
+        window.add(testGraph);
+
         while (true) {
             window.update();
 
             window.add(graph);
+            window.add(testGraph);
 
             Point mouse = window.getMouse();
 

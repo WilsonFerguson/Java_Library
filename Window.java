@@ -274,6 +274,8 @@ public class Window {
                         Triangle.draw(g, panel);
                     } else if (panel instanceof Text) {
                         Text.draw(g, panel);
+                    } else if (panel instanceof Graph) {
+                        Graph.draw(g, panel);
                     }
                 }
 

@@ -159,12 +159,17 @@ public class Helper {
      * @return boolean
      */
     public static boolean isInt(String str) {
-        try {
-            Integer.parseInt(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
+        int decimalIndex = str.indexOf('.');
+        if (decimalIndex == -1) {
+            try {
+                Integer.parseInt(str);
+                return true;
+            } catch (NumberFormatException e) {
+                return false;
+            }
         }
+        String afterDecimal = str.substring(decimalIndex + 1);
+        return afterDecimal.equals("0");
     }
 
     /**
