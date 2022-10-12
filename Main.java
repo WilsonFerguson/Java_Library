@@ -60,7 +60,7 @@ public class Main implements JavaLibrary {
         testGraph.addPoint(30);
         testGraph.addPoint(20);
         testGraph.addPoint(10);
-        testGraph.addPoint(0);
+        testGraph.addPoint(-30);
 
         window.add(testGraph);
 

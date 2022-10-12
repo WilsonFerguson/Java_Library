@@ -373,6 +373,20 @@ public class Graph extends JPanel {
     }
 
     /**
+     * Returns the lowest y value of the graph as a {@code double}.
+     * @return double
+     */
+    public double getMinY() {
+        double min = 0;
+        for (double y : yValues) {
+            if (y < min) {
+                min = y;
+            }
+        }
+        return min;
+    }
+
+    /**
      * Returns the points in the graph as an {@code ArrayList<Double>} points.
      * 
      * @return ArrayList<Double>
@@ -416,10 +430,10 @@ public class Graph extends JPanel {
         double gap = (dimensions.x - 40) / yValues.size();
         double bottom = pos.y + dimensions.y - 20;
         double highest = getMaxY();
-        double scale = (dimensions.y - 40) / highest;
+        double lowest = getMinY();
         for (int i = 0; i < yValues.size(); i++) {
             double x = pos.x + 20 + (i * gap);
-            double y = bottom - (yValues.get(i) * scale);
+            double y = Helper.map(yValues.get(i), lowest, highest, bottom, pos.y + 20);
             points.add(new Point(x, y));
         }
         return points;
@@ -489,12 +503,17 @@ public class Graph extends JPanel {
 
         // Y axis numbers
         graphics.setColor(oppColor);
-        graphics.drawString("0", (int) pos.x + 10, (int) pos.y + (int) height - 10);
         String upperBound = String.valueOf(graph.getMaxY());
         if (Helper.isInt(upperBound)) {
             upperBound = upperBound.substring(0, upperBound.indexOf("."));
         }
         graphics.drawString(upperBound, (int) pos.x + 5, (int) pos.y + 15);
+
+        String lowerBound = String.valueOf(graph.getMinY());
+        if (Helper.isInt(lowerBound)) {
+            lowerBound = lowerBound.substring(0, lowerBound.indexOf("."));
+        }
+        graphics.drawString(lowerBound, (int) pos.x + 5, (int) pos.y + (int) height - 5);
 
         // Title
         Text title = new Text(graph.getTitle(), pos.x + (width / 2), pos.y + 15);
