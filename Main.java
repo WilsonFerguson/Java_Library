@@ -90,7 +90,7 @@ public class Main implements JavaLibrary {
             // be very small
 
             Line tangent = new Line(firstPoint, secondPoint);
-            tangent.color(135, 163, 123);
+            tangent.color(135, 163, 123); // 123
             window.add(tangent);
 
             Circle circle = new Circle(center.x, center.y, 5);

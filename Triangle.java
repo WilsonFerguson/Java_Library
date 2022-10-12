@@ -5,7 +5,7 @@ import java.awt.Graphics;
 public class Triangle extends JPanel {
 
     public Point pos1, pos2, pos3;
-    private Color color = Color.blue;
+    private Color color = Color.black;
     private boolean filled = false;
 
     /**
@@ -151,7 +151,7 @@ public class Triangle extends JPanel {
      * @param b
      */
     public void color(int r, int g, int b) {
-        color(new Color(r, g, b));
+        color(new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255)));
     }
 
     /**

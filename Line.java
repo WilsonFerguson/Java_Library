@@ -21,7 +21,6 @@ public class Line extends JPanel {
      * @param y2
      */
     public Line(double x1, double y1, double x2, double y2, Color color) {
-        super();
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -39,7 +38,6 @@ public class Line extends JPanel {
      * @param y2
      */
     public Line(double x1, double y1, double x2, double y2) {
-        super();
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -56,7 +54,6 @@ public class Line extends JPanel {
      * @param color
      */
     public Line(Point p1, Point p2, Color color) {
-        super();
         this.x1 = p1.x;
         this.y1 = p1.y;
         this.x2 = p2.x;
@@ -71,7 +68,6 @@ public class Line extends JPanel {
      * @param p2
      */
     public Line(Point p1, Point p2) {
-        super();
         this.x1 = p1.x;
         this.y1 = p1.y;
         this.x2 = p2.x;
@@ -139,7 +135,7 @@ public class Line extends JPanel {
      * @param b
      */
     public void color(int r, int g, int b) {
-        color(new Color(r, g, b));
+        color(new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255)));
     }
 
     /**

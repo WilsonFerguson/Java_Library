@@ -115,7 +115,7 @@ public class InputBox implements ClickableObject, JavaLibrary {
      * @param b
      */
     public void defaultColor(int r, int g, int b) {
-        defaultColor(new Color(r, g, b));
+        defaultColor(new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255)));
     }
 
     /**
@@ -145,7 +145,7 @@ public class InputBox implements ClickableObject, JavaLibrary {
      * @param b
      */
     public void selectedColor(int r, int g, int b) {
-        selectedColor(new Color(r, g, b));
+        selectedColor(new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255)));
     }
 
     /**
@@ -175,7 +175,7 @@ public class InputBox implements ClickableObject, JavaLibrary {
      * @param b
      */
     public void textColor(int r, int g, int b) {
-        textColor(new Color(r, g, b));
+        textColor(new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255)));
     }
 
     /**

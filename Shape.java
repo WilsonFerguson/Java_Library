@@ -77,7 +77,7 @@ public class Shape extends JPanel {
      * @param b
      */
     public void color(int r, int g, int b) {
-        color(new Color(r, g, b));
+        color(new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255)));
     }
 
     /**

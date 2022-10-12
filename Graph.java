@@ -176,7 +176,7 @@ public class Graph extends JPanel {
      * @param b
      */
     public void lineColor(int r, int g, int b) {
-        this.lineColor = new Color(r, g, b);
+        this.lineColor = new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255));
     }
 
     /**
@@ -206,7 +206,7 @@ public class Graph extends JPanel {
      * @param b
      */
     public void backgroundColor(int r, int g, int b) {
-        this.backgroundColor = new Color(r, g, b);
+        this.backgroundColor = new Color(Math.min(r, 255), Math.min(g, 255), Math.min(b, 255));
     }
 
     /**
@@ -374,6 +374,7 @@ public class Graph extends JPanel {
 
     /**
      * Returns the lowest y value of the graph as a {@code double}.
+     * 
      * @return double
      */
     public double getMinY() {
@@ -481,6 +482,9 @@ public class Graph extends JPanel {
         Point pos = graph.getPos();
         Point dimensions = graph.getDimensions();
 
+        // What the y value is when data point is 0
+        double heightAt0 = Helper.map(0, graph.getMinY(), graph.getMaxY(), pos.y + dimensions.y - 20, pos.y + 20);
+
         // Background
         Rectangle rect = new Rectangle(pos.x, pos.y, dimensions.x, dimensions.y);
         rect.color(graph.getBackgroundColor());
@@ -490,30 +494,69 @@ public class Graph extends JPanel {
         double width = dimensions.x;
         double height = dimensions.y;
 
-        // Axes
-        Line xAxis = new Line(pos.x + 20, pos.y + height - 20, pos.x + width - 20, pos.y + height - 20);
-        Line yAxis = new Line(pos.x + 20, pos.y + height - 20, pos.x + 20, pos.y + 20);
         Color oppColor = new Color(255 - graph.getBackgroundColor().getRed(),
                 255 - graph.getBackgroundColor().getGreen(),
                 255 - graph.getBackgroundColor().getBlue());
+
+        // Y axis numbers
+        graphics.setColor(oppColor);
+
+        // Upper bound label
+        String upperBound = String.valueOf(graph.getMaxY());
+        if (Helper.isInt(upperBound)) {
+            upperBound = upperBound.substring(0, upperBound.indexOf("."));
+        } else {
+            upperBound = upperBound.substring(0, upperBound.indexOf(".") + 2);
+        }
+        graphics.drawString(upperBound, (int) pos.x + 5, (int) pos.y + 15);
+
+        // Lower bound label
+        String lowerBound = String.valueOf(graph.getMinY());
+        if (Helper.isInt(lowerBound)) {
+            lowerBound = lowerBound.substring(0, lowerBound.indexOf("."));
+        } else {
+            lowerBound = lowerBound.substring(0, lowerBound.indexOf(".") + 2);
+        }
+        graphics.drawString(lowerBound, (int) pos.x + 5, (int) pos.y + (int) height - 5);
+
+        // Line at 0
+        if (graph.getMinY() < 0) {
+            Line lineAt0 = new Line(pos.x + 20, heightAt0, pos.x + width - 20, heightAt0);
+            int bgR = graph.getBackgroundColor().getRed();
+            int bgG = graph.getBackgroundColor().getGreen();
+            int bgB = graph.getBackgroundColor().getBlue();
+            if (bgR < 128) {
+                bgR += 50;
+            } else {
+                bgR -= 50;
+            }
+            if (bgG < 128) {
+                bgG += 50;
+            } else {
+                bgG -= 50;
+            }
+            if (bgB < 128) {
+                bgB += 50;
+            } else {
+                bgB -= 50;
+            }
+            bgR = Math.min(255, Math.max(0, bgR));
+            bgG = Math.min(255, Math.max(0, bgG));
+            bgB = Math.min(255, Math.max(0, bgB));
+            lineAt0.color(new Color(bgR, bgG, bgB));
+            Line.draw(graphics, lineAt0);
+
+            // Line at 0 label
+            graphics.drawString("0", (int) pos.x + 10, (int) heightAt0 + 5);
+        }
+
+        // Axes Lines
+        Line xAxis = new Line(pos.x + 20, pos.y + height - 20, pos.x + width - 20, pos.y + height - 20);
+        Line yAxis = new Line(pos.x + 20, pos.y + height - 20, pos.x + 20, pos.y + 20);
         xAxis.color(oppColor);
         yAxis.color(oppColor);
         Line.draw(graphics, xAxis);
         Line.draw(graphics, yAxis);
-
-        // Y axis numbers
-        graphics.setColor(oppColor);
-        String upperBound = String.valueOf(graph.getMaxY());
-        if (Helper.isInt(upperBound)) {
-            upperBound = upperBound.substring(0, upperBound.indexOf("."));
-        }
-        graphics.drawString(upperBound, (int) pos.x + 5, (int) pos.y + 15);
-
-        String lowerBound = String.valueOf(graph.getMinY());
-        if (Helper.isInt(lowerBound)) {
-            lowerBound = lowerBound.substring(0, lowerBound.indexOf("."));
-        }
-        graphics.drawString(lowerBound, (int) pos.x + 5, (int) pos.y + (int) height - 5);
 
         // Title
         Text title = new Text(graph.getTitle(), pos.x + (width / 2), pos.y + 15);
@@ -533,10 +576,9 @@ public class Graph extends JPanel {
         yLabel.color(oppColor);
         Text.draw(graphics, yLabel);
 
-        
         // Draw Points
         Shape shape = graph.toShape();
-        
+
         Shape.draw(graphics, shape);
     }
 }
