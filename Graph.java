@@ -426,6 +426,23 @@ public class Graph extends JPanel {
     }
 
     /**
+     * Returns a {@link Shape} object of the graph.
+     * 
+     * @return Shape
+     */
+    public Shape toShape() {
+        Shape shape = new Shape();
+        shape.color(lineColor);
+
+        ArrayList<Point> points = getMappedPoints();
+        for (int i = 0; i < points.size(); i++) {
+            Point point = points.get(i);
+            shape.addPoint(point.x, point.y);
+        }
+        return shape;
+    }
+
+    /**
      * This method is automatically handled by the {@link Window} class. Paints the
      * graph to a {@code Graphics} graphics.
      * 
@@ -499,14 +516,7 @@ public class Graph extends JPanel {
 
         
         // Draw Points
-        Shape shape = new Shape();
-        shape.color(graph.getLineColor());
-
-        ArrayList<Point> points = graph.getMappedPoints();
-        for (int i = 0; i < points.size(); i++) {
-            Point point = points.get(i);
-            shape.addPoint(point.x, point.y);
-        }
+        Shape shape = graph.toShape();
         
         Shape.draw(graphics, shape);
     }
