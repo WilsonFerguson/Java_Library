@@ -39,7 +39,9 @@ public class Graph extends JPanel {
     }
 
     /**
-     * Creates a graph with the given {@code Point} position, {@code Point} dimensions, and {@code String} title.
+     * Creates a graph with the given {@code Point} position, {@code Point}
+     * dimensions, and {@code String} title.
+     * 
      * @param pos
      * @param dimensions
      * @param title
@@ -49,7 +51,9 @@ public class Graph extends JPanel {
     }
 
     /**
-     * Creates a graph with the given {@code Point} position and {@code Point} dimensions.
+     * Creates a graph with the given {@code Point} position and {@code Point}
+     * dimensions.
+     * 
      * @param pos
      * @param dimensions
      */
@@ -58,7 +62,10 @@ public class Graph extends JPanel {
     }
 
     /**
-     * Creates a graph with the given {@code double} x position, {@code double} y position, {@code double} width, {@code double} height, {@code String} title, {@code String} x label, and {@code String} y label.
+     * Creates a graph with the given {@code double} x position, {@code double} y
+     * position, {@code double} width, {@code double} height, {@code String} title,
+     * {@code String} x label, and {@code String} y label.
+     * 
      * @param x
      * @param y
      * @param width
@@ -72,7 +79,10 @@ public class Graph extends JPanel {
     }
 
     /**
-     * Creates a graph with the given {@code double} x position, {@code double} y position, {@code double} width, {@code double} height, and {@code String} title.
+     * Creates a graph with the given {@code double} x position, {@code double} y
+     * position, {@code double} width, {@code double} height, and {@code String}
+     * title.
+     * 
      * @param x
      * @param y
      * @param width
@@ -84,7 +94,9 @@ public class Graph extends JPanel {
     }
 
     /**
-     * Creates a graph with the given {@code double} x position, {@code double} y position, {@code double} width, and {@code double} height.
+     * Creates a graph with the given {@code double} x position, {@code double} y
+     * position, {@code double} width, and {@code double} height.
+     * 
      * @param x
      * @param y
      * @param width
@@ -105,6 +117,7 @@ public class Graph extends JPanel {
 
     /**
      * Adds the {@code double} y vaue of a {@code Point} data point to the graph.
+     * 
      * @param dataPoint
      */
     public void addPoint(Point dataPoint) {
@@ -272,7 +285,8 @@ public class Graph extends JPanel {
     }
 
     /**
-     * Sets the corner roundness of the graph given a {@code double} corner roundness.
+     * Sets the corner roundness of the graph given a {@code double} corner
+     * roundness.
      * 
      * @param cornerRoundness
      */
@@ -345,6 +359,7 @@ public class Graph extends JPanel {
 
     /**
      * Returns the highest y value of the graph as a {@code double}.
+     * 
      * @return double
      */
     public double getMaxY() {
@@ -367,9 +382,13 @@ public class Graph extends JPanel {
     }
 
     /**
-     * Returns the points in the graph as an {@code ArrayList<Point>} points.
+     * Returns the points in the graph as an {@code ArrayList<Point>} points. These
+     * y values have been mapped, but there is no margin for the for the graph axis
+     * or labels.
+     * 
+     * @return ArrayList<Point>
      */
-    public ArrayList<Point> getPointsAsPoints() {
+    public ArrayList<Point> getRawPoints() {
         ArrayList<Point> points = new ArrayList<Point>();
         double gap = dimensions.x / yValues.size();
         double bottom = pos.y + dimensions.y;
@@ -379,6 +398,27 @@ public class Graph extends JPanel {
 
         for (int i = 0; i < yValues.size(); i++) {
             double x = pos.x + (i * gap);
+            double y = bottom - (yValues.get(i) * scale);
+            points.add(new Point(x, y));
+        }
+        return points;
+    }
+
+    /**
+     * Returns the points in the graph as an {@code ArrayList<Point>} points. These
+     * y values have been mapped, and there is a margin for the for the graph axis
+     * or labels.
+     *
+     * @return ArrayList<Point>
+     */
+    public ArrayList<Point> getMappedPoints() {
+        ArrayList<Point> points = new ArrayList<Point>();
+        double gap = (dimensions.x - 40) / yValues.size();
+        double bottom = pos.y + dimensions.y - 20;
+        double highest = getMaxY();
+        double scale = (dimensions.y - 40) / highest;
+        for (int i = 0; i < yValues.size(); i++) {
+            double x = pos.x + 20 + (i * gap);
             double y = bottom - (yValues.get(i) * scale);
             points.add(new Point(x, y));
         }
@@ -399,7 +439,8 @@ public class Graph extends JPanel {
 
     /**
      * Static method to draw a graph to {@code Graphics} graphics given a
-     * {@code JPanel} panel. This method is automatically handled by the {@link Window} class.
+     * {@code JPanel} panel. This method is automatically handled by the
+     * {@link Window} class.
      * 
      * @param graphics
      * @param panel
@@ -421,7 +462,8 @@ public class Graph extends JPanel {
         // Axes
         Line xAxis = new Line(pos.x + 20, pos.y + height - 20, pos.x + width - 20, pos.y + height - 20);
         Line yAxis = new Line(pos.x + 20, pos.y + height - 20, pos.x + 20, pos.y + 20);
-        Color oppColor = new Color(255 - graph.getBackgroundColor().getRed(), 255 - graph.getBackgroundColor().getGreen(),
+        Color oppColor = new Color(255 - graph.getBackgroundColor().getRed(),
+                255 - graph.getBackgroundColor().getGreen(),
                 255 - graph.getBackgroundColor().getBlue());
         xAxis.color(oppColor);
         yAxis.color(oppColor);
@@ -455,25 +497,17 @@ public class Graph extends JPanel {
         yLabel.color(oppColor);
         Text.draw(graphics, yLabel);
 
-        // Calculate Points with the margin
-        ArrayList<Point> points = new ArrayList<Point>();
-        double gap = (dimensions.x - 40) / graph.getPoints().size();
-        double bottom = pos.y + dimensions.y - 20;
-        double highest = graph.getMaxY();
-        double scale = (dimensions.y - 40) / highest;
-        for (int i = 0; i < graph.getPoints().size(); i++) {
-            double x = pos.x + 20 + (i * gap);
-            double y = bottom - (graph.getPoints().get(i) * scale);
-            points.add(new Point(x, y));
-        }
-
+        
         // Draw Points
         Shape shape = new Shape();
+        shape.color(graph.getLineColor());
+
+        ArrayList<Point> points = graph.getMappedPoints();
         for (int i = 0; i < points.size(); i++) {
             Point point = points.get(i);
             shape.addPoint(point.x, point.y);
         }
-        shape.color(graph.getLineColor());
+        
         Shape.draw(graphics, shape);
     }
 }
