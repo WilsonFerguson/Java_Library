@@ -108,6 +108,34 @@ public class Shape extends JPanel {
     }
 
     /**
+     * Returns a {@link Graph} object of the shape. Currently not fully working.
+     * 
+     * @return Graph
+     */
+    public Graph toGraph() {
+        double leftMostX = Double.MAX_VALUE;
+        double rightMostX = Double.MIN_VALUE;
+        double topMostY = Double.MAX_VALUE;
+        for (Point point : points) {
+            if (point.x < leftMostX) {
+                leftMostX = point.x;
+            }
+            if (point.x > rightMostX) {
+                rightMostX = point.x;
+            }
+            if (point.y < topMostY) {
+                topMostY = point.y;
+            }
+        }
+        Graph graph = new Graph(leftMostX - 20, topMostY - 20, rightMostX + 20, 0);
+        graph.lineColor(color);
+        for (Point point : points) {
+            graph.addPoint(point);
+        }
+        return graph;
+    }
+
+    /**
      * This method is automatically handled by the {@link Window} class. Paints the
      * shape to a {@code Graphics} graphics.
      * 
