@@ -235,6 +235,14 @@ public class Point {
     }
 
     /**
+     * Limits the point to {@code double} max.
+     */
+    public void limit(double max) {
+        this.x = Math.max(Math.min(this.x, max), -max);
+        this.y = Math.max(Math.min(this.y, max), -max);
+    }
+
+    /**
      * Returns the dot product of this point and {@code Point} p.
      * 
      * @param point
@@ -443,6 +451,18 @@ public class Point {
     }
 
     /**
+     * Returns a {@code Point} that is limited to the given {@code double} max. See {@link Point#limit(double)}.
+     * 
+     * @param point
+     * @param max
+     */
+    public static Point limit(Point point, double max) {
+        Point p = point.copy();
+        p.limit(max);
+        return p;
+    }
+
+    /**
      * Static method to return the {@code double} distance between {@code double}
      * x1, {@code double} y1 and {@code double} x2, {@code double} y2.
      * {@link Point#dist(double, double)}.
@@ -483,5 +503,14 @@ public class Point {
         Point p1 = point1.copy();
         Point p2 = point2.copy();
         return p1.cross(p2);
+    }
+
+    /**
+     * Returns a new Point(0, 0).
+     * 
+     * @return Point
+     */
+    public static Point zero() {
+        return new Point(0, 0);
     }
 }
