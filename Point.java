@@ -225,6 +225,16 @@ public class Point {
     }
 
     /**
+     * Constrains the point from {@code double} min to {@code double} max.
+     * @param min
+     * @param max
+     */
+    public void constrain(double min, double max) {
+        this.x = Helper.constrain(this.x, min, max);
+        this.y = Helper.constrain(this.y, min, max);
+    }
+
+    /**
      * Returns the dot product of this point and {@code Point} p.
      * 
      * @param point
@@ -417,6 +427,19 @@ public class Point {
         Point p1 = point1.copy();
         Point p2 = point2.copy();
         return p1.dist(p2);
+    }
+
+    /**
+     * Returns a constrained {@code Point} point from the given {@code Point} point, {@code double} min, and {@code double} max. See {@link Point#constrain(double, double)}.
+     * @param point
+     * @param min
+     * @param max
+     * @return Point
+     */
+    public static Point constrain(Point point, double min, double max) {
+        Point p = point.copy();
+        p.constrain(min, max);
+        return p;
     }
 
     /**

@@ -301,4 +301,15 @@ public class Helper {
     public static int keyEventToKeyCode(KeyEvent evt) {
         return evt.getKeyCode();
     }
+
+    /**
+     * Returns a constrained {@code double} value.
+     */
+    public static double constrain(double value, double min, double max) {
+        if (value < min)
+            return min;
+        if (value > max)
+            return max;
+        return value;
+    }
 }
