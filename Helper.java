@@ -271,7 +271,8 @@ public class Helper {
     }
 
     /**
-     * Returns a {@code String} of the given {@code KeyEvent}. Examples of non-alpha keys: "Backspace" "Control" "Space" "Up" "F5"
+     * Returns a {@code String} of the given {@code KeyEvent}. Examples of non-alpha
+     * keys: "Backspace" "Control" "Space" "Up" "F5"
      * 
      * @param evt
      * @return String
@@ -311,5 +312,19 @@ public class Helper {
         if (value > max)
             return max;
         return value;
+    }
+
+    /**
+     * Returns perlin noise at the given {@code double} x and y values.
+     * 
+     * @param x
+     * @param y
+     * @return double
+     */
+    public static double perlinNoise(double x, double y) {
+        int n = (int) x + (int) y * 57;
+        n = (n << 13) ^ n;
+        return (1.0 - ((n * (n * n * 15731 + 789221) + 1376312589) & 0x7fffffff) / 1073741824.0); // Github Copilot did
+                                                                                                  // this
     }
 }
