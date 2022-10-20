@@ -313,4 +313,40 @@ public class Helper {
             return max;
         return value;
     }
+
+    /**
+     * Returns a smooth {@code double} value between -1 and 1 given a {@code double} x and {@code double} y.
+     * 
+     * @param x
+     * @param y
+     * @return double
+     */
+    public static double perlinNoise(double x, double y) {
+        return PerlinNoise.noise(x, y);
+    }
+
+    /**
+     * Returns a smooth {@code double} value between -1 and 1 given a {@code double} x, {@code double} y, and {@code double} z.
+     * 
+     * @param x
+     * @param y
+     * @param z
+     * @return double
+     */
+    public static double perlinNoise(double x, double y, double z) {
+        return PerlinNoise.noise(x, y, z);
+    }
+
+    /**
+     * Returns a smooth {@code double} value between -1 and 1 given a {@code double} x, {@code double} y, {@code double} z, and {@code double} w.
+     * 
+     * @param x
+     * @param y
+     * @param z
+     * @param w
+     * @return double
+     */
+    public static double perlinNoise(double x, double y, double z, double w) {
+        return PerlinNoise.noise(x, y, z, w);
+    }
 }
